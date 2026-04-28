@@ -1,6 +1,6 @@
-import supabase from "../supabase.js";
-import prisma from "../prismaClient.js";
-import AppError from "../utils/appError.js";
+import supabase from '../supabase.js';
+import prisma from '../prismaClient.js';
+import AppError from '../utils/appError.js';
 
 export const register = async (email, password, name) => {
   const { data, error } = await supabase.auth.signUp({
@@ -30,7 +30,7 @@ export const login = async (email, password) => {
   });
 
   if (error) {
-    throw new AppError("Неверный email или пароль", 401);
+    throw new AppError('Неверный email или пароль', 401);
   }
 
   return data.session;
@@ -42,4 +42,16 @@ export const logout = async (accessToken) => {
   if (error) {
     throw new AppError(error.message, 400);
   }
+};
+
+export const getMe = async (supabaseId) => {
+  const user = await prisma.user.findUnique({
+    where: { supabaseId },
+  });
+
+  if (!user) {
+    throw new AppError('Пользователь не найден', 404);
+  }
+
+  return user;
 };

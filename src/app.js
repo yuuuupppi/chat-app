@@ -1,4 +1,3 @@
-import setupSwagger from "./swagger.js";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -10,15 +9,26 @@ import messagesRoutes from "./routes/messages.js";
 import errorHandler from "./middleware/errorHandler.js";
 
 const app = express();
+app.set('trust proxy', 1);
 
-// Security middleware
-app.use(helmet());
+// Security middleware с настройками для Tailwind CDN
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://cdn.tailwindcss.com", "'unsafe-inline'"],
+      styleSrc: ["'self'", "https://cdn.tailwindcss.com", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
+    },
+  },
+}));
+
 app.use(cors(config.cors));
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   message: "Слишком много запросов с этого IP, попробуйте позже.",
 });
 app.use("/api", limiter);
@@ -27,13 +37,13 @@ app.use("/api", limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Статические файлы фронтенда
+app.use(express.static('public'));
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/rooms", roomsRoutes);
 app.use("/api", messagesRoutes);
-
-// Swagger документация
-setupSwagger(app);
 
 // Health check
 app.get("/health", (req, res) => {

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход в чат</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #313338; }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+  <div class="w-full max-w-md p-8 bg-[#2b2d31] rounded-lg shadow-lg">
+    <div class="flex mb-6 border-b border-[#1e1f22]">
+      <button id="tab-login" class="flex-1 py-2 text-center text-white font-semibold border-b-2 border-[#5865f2]">Вход</button>
+      <button id="tab-register" class="flex-1 py-2 text-center text-[#949ba4] font-semibold hover:text-white">Регистрация</button>
+    </div>
+
+    <form id="auth-form">
+      <div id="name-field" class="flex flex-col gap-1 mb-4 hidden">
+        <label class="text-[#b5bac1] text-xs font-semibold uppercase tracking-wide">Имя</label>
+        <input id="input-name" type="text" placeholder="Ваше имя" class="bg-[#1e1f22] text-white rounded px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#5865f2]">
+      </div>
+
+      <div class="flex flex-col gap-1 mb-4">
+        <label class="text-[#b5bac1] text-xs font-semibold uppercase tracking-wide">Email</label>
+        <input id="input-email" type="email" placeholder="user@example.com" class="bg-[#1e1f22] text-white rounded px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#5865f2]">
+      </div>
+
+      <div class="flex flex-col gap-1 mb-4">
+        <label class="text-[#b5bac1] text-xs font-semibold uppercase tracking-wide">Пароль</label>
+        <input id="input-password" type="password" placeholder="**********" class="bg-[#1e1f22] text-white rounded px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#5865f2]">
+      </div>
+
+      <p id="auth-error" class="text-red-400 text-sm hidden mb-4"></p>
+
+      <button type="submit" class="w-full bg-[#5865f2] hover:bg-[#4752c4] text-white font-semibold py-2 rounded transition-colors">
+        Войти
+      </button>
+    </form>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

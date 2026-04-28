@@ -1,4 +1,4 @@
-import * as roomService from "../services/roomService.js";
+import * as roomService from '../services/roomService.js';
 
 export const getRooms = async (req, res, next) => {
   try {
@@ -38,21 +38,11 @@ export const deleteRoom = async (req, res, next) => {
   }
 };
 
-export const joinRoom = async (req, res, next) => {
+export const getMyRooms = async (req, res, next) => {
   try {
     const supabaseId = req.user.sub;
-    await roomService.joinRoom(req.params.id, supabaseId);
-    res.status(200).json({ success: true, message: "Вы вступили в комнату" });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const leaveRoom = async (req, res, next) => {
-  try {
-    const supabaseId = req.user.sub;
-    await roomService.leaveRoom(req.params.id, supabaseId);
-    res.status(200).json({ success: true, message: "Вы покинули комнату" });
+    const roomIds = await roomService.getMyRooms(supabaseId);
+    res.status(200).json({ success: true, data: roomIds });
   } catch (error) {
     next(error);
   }

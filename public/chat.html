@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Чат - Обсуждения</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #313338; }
+    .messages-area::-webkit-scrollbar { width: 8px; }
+    .messages-area::-webkit-scrollbar-track { background: #1e1f22; border-radius: 4px; }
+    .messages-area::-webkit-scrollbar-thumb { background: #383a40; border-radius: 4px; }
+    .messages-area::-webkit-scrollbar-thumb:hover { background: #474a52; }
+  </style>
+</head>
+<body class="flex h-screen">
+  <!-- Левая панель с комнатами -->
+  <div class="w-72 bg-[#2b2d31] flex flex-col">
+    <div class="p-4 border-b border-[#1e1f22]">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 rounded-full bg-[#5865f2] flex items-center justify-center text-white font-bold text-sm" id="user-avatar">?</div>
+          <div class="text-sm font-semibold text-white truncate" id="user-name">Загрузка...</div>
+        </div>
+        <button id="btn-logout" class="text-[#949ba4] hover:text-white text-sm">Выйти</button>
+      </div>
+    </div>
+
+    <div class="p-3">
+      <button id="btn-create-room" class="w-full bg-[#5865f2] hover:bg-[#4752c4] text-white text-sm font-semibold py-2 rounded transition-colors">
+        + Создать комнату
+      </button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto">
+      <div class="px-2 py-1">
+        <div class="text-[#949ba4] text-xs font-semibold uppercase tracking-wide px-2 py-2">Комнаты</div>
+        <ul id="rooms-list" class="space-y-0.5"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Правая панель с чатом -->
+  <div class="flex-1 flex flex-col bg-[#313338]">
+    <div class="h-14 bg-[#2b2d31] border-b border-[#1e1f22] flex items-center justify-between px-6">
+      <h2 id="room-name" class="text-white font-semibold text-lg">Выберите комнату</h2>
+      <button id="btn-leave-room" class="hidden text-[#949ba4] hover:text-red-400 text-sm">Покинуть комнату</button>
+    </div>
+
+    <div class="flex-1 flex">
+      <!-- Сообщения -->
+      <div class="flex-1 flex flex-col">
+        <div id="messages-area" class="flex-1 overflow-y-auto messages-area p-4 space-y-2"></div>
+
+        <div class="p-4 border-t border-[#1e1f22]">
+          <div class="flex gap-2">
+            <input type="text" id="message-input" placeholder="Введите сообщение..." class="flex-1 bg-[#1e1f22] text-white rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-[#5865f2]">
+            <button id="btn-send" class="bg-[#5865f2] hover:bg-[#4752c4] text-white px-4 py-2 rounded text-sm font-semibold transition-colors">Отправить</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Участники -->
+      <div class="w-56 bg-[#2b2d31] border-l border-[#1e1f22] flex flex-col">
+        <div class="p-3 border-b border-[#1e1f22]">
+          <span class="text-[#949ba4] text-xs font-semibold uppercase tracking-wide">Участники</span>
+        </div>
+        <ul id="members-list" class="flex-1 overflow-y-auto p-2 space-y-1"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно создания комнаты -->
+  <div id="modal-create-room" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-[#2b2d31] rounded-lg w-96 p-6">
+      <h3 class="text-white font-semibold text-lg mb-4">Создать комнату</h3>
+      <input type="text" id="input-room-name" placeholder="Название комнаты" class="w-full bg-[#1e1f22] text-white rounded px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#5865f2] mb-4">
+      <p id="room-error" class="text-red-400 text-sm hidden mb-4"></p>
+      <div class="flex gap-2">
+        <button id="btn-cancel-room" class="flex-1 bg-[#1e1f22] hover:bg-[#383a40] text-white py-2 rounded transition-colors">Отмена</button>
+        <button id="btn-confirm-room" class="flex-1 bg-[#5865f2] hover:bg-[#4752c4] text-white py-2 rounded transition-colors">Создать</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/socket-client.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

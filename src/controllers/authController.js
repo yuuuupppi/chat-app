@@ -1,4 +1,4 @@
-import * as authService from "../services/authService.js";
+import * as authService from '../services/authService.js';
 
 export const register = async (req, res, next) => {
   try {
@@ -30,12 +30,26 @@ export const login = async (req, res, next) => {
 
 export const logout = async (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    const token = req.headers.authorization?.split(' ')[1];
     await authService.logout(token);
 
     res.status(200).json({
       success: true,
-      message: "Успешный выход из системы",
+      message: 'Успешный выход из системы',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getMe = async (req, res, next) => {
+  try {
+    const supabaseId = req.user.sub;
+    const user = await authService.getMe(supabaseId);
+
+    res.status(200).json({
+      success: true,
+      data: { user },
     });
   } catch (error) {
     next(error);

@@ -155,7 +155,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/project/workspace/generated/prisma",
+      "value": "/workspaces/chat-app/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -169,7 +169,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/project/workspace/prisma/schema.prisma",
+    "sourceFilePath": "/workspaces/chat-app/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
